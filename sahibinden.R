@@ -2,6 +2,8 @@ installed.packages("rvest")
 library(rvest)
 library(dplyr)
 
+#web scraping for given task by using selectorGadget extension
+
 link= "https://www.sahibinden.com/ilan/emlak-konut-satilik-sisli-gulbahar-mahallesinde-site-icerisinde-1-plus1-kiracili-daire-1067776846/detay"
 page = read_html(link)
 page
