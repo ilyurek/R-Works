@@ -29,3 +29,4 @@ colnames(df)<-col
 df<-df[-1,]
 df
 View(df)
+#...
