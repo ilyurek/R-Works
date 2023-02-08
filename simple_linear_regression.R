@@ -1,6 +1,5 @@
 #Simple Linear Regression
 #Correlation does not imply causation
-
 # Linear Regression 
 
 library(MASS)
