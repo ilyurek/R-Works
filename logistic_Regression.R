@@ -44,7 +44,7 @@ newdata1<- with(df,data.frame(gre=mean(gre), #####!!!!!!!!!!!!!########
 
 newdata1$rankp<- predict(logit,newdata=newdata1,type="response")
 
-#Bernoulli Distributi
+#Bernoulli Distribution
 
 
 
