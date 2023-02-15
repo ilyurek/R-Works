@@ -1,4 +1,4 @@
-#Anova with R
+#ANOVA with R
 head(InsectSprays)
 
 plot(count~spray, data=InsectSprays,
