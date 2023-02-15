@@ -1,0 +1,16 @@
+#Anova with R
+head(InsectSprays)
+
+plot(count~spray, data=InsectSprays,
+     xlab="Types of Insecticide",
+     ylab="Counts of Insects")
+
+library(tidyverse)
+InsectSprays %>% ggplot(mapping = aes(spray,count)) + geom_boxplot() +
+  xlab("Types of Insecticide") +
+     ylab("Counts of Insects")
+
+
+anova(lm(count~spray, data=InsectSprays))
+# Lower p value indicates that there is a association between the types of 
+# insecticded and counts of insects.
