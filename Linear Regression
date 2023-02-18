@@ -144,4 +144,5 @@ for(i in 1:4){
   lines(plot.x$inc, plot.fit$fit[,1]-ww*plot.fit$se.fit, 
         col=2, lty=2)
 }
-```
+```^
+##
