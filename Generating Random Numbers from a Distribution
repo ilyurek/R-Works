@@ -1,0 +1,191 @@
+# Generating Random Sample rom Unknown Probability distribution
+
+x <- sample(-50:50,size=20,replace=FALSE) # take 20 random numbers
+x
+
+set.seed(360) #for reproducibility
+x<-sample(-2:2,size=50,replace=T,prob = c(0.1,0.2,0.3,0.2,0.2))
+table(x)
+prop.table(table(x))
+
+z<- sample(-100:100,size=500,replace=T)
+
+#After generate a sample, we should check the histogram
+#density and statistics of the sample
+
+data_z<-as.data.frame(z) #to use ggplot, it is need a dataframe
+library(ggplot2)
+h<-ggplot(data_z,aes(z))+
+  geom_histogram(color="violet",fill="pink",bins=30)+
+  labs(title="Histogram of the sample Z")
+b<-ggplot(data_z,aes(z))+geom_density(alpha=0.4,color="blue",fill="blue")+
+  labs(title="Density of the sample z")
+b
+library(ggpubr)
+ggarrange(h,b)
+
+cat("Mean of sample Z is",mean(z),"\n")
+cat("Variance of sample Z is",var(z),"\n")
+
+# Let generate sample from X ~Unif(2,5) sample of size 100
+u<-runif(100,min=2,max=5)
+data_u<-data.frame(u)
+ggplot(data_u,aes(u))+geom_histogram(color="blue",fill="blue",
+                                     bins=30,alpha=0.4)+
+  labs(title="Histogram of the sample U")
+
+# Let generate numbers from p~Binom(n=100, p=0.3) sample of size 1000
+p<- rbinom(n=1000,size=100,prob=0.3)
+data_p<-as.data.frame(p)
+ggplot(data_p, aes(x=p)) + geom_histogram(color="darkred", fill="red", bins = 30, alpha=0.4) +labs(title = "Histogram of the sample P")
+
+# Write a function to generate random variables from exponential distribution (λ = 5) by using inverse transform method, apply it for n=10000
+# and validate that they come from exponential distribution
+lambda <- 5
+set.seed(361)
+u <- runif(n = 10000) 
+x <- -log(u) / lambda
+head(x,20)
+
+data_x<- as.data.frame(x) #to use ggplot, it is needed a dataframe
+library(ggplot2)
+h<-ggplot(data_x, aes(x=x)) + 
+  geom_histogram(color="violet", fill="pink", bins = 30) +labs(title = "Histogram of Exponential distribution")
+
+
+b<-ggplot(data_x, aes(x=x)) + geom_density(alpha=0.4, color="blue", fill="blue")+labs(title = "Density of Exponential distribution")
+
+library(ggpubr)
+ggarrange(h,b)
+# Lets calculate the sample mean to compare with the 
+# expectation of exponential distrubiton 
+
+cat("Mean of sample X is=", mean(x), "\n")
+cat("Variance of sample X is=", var(x), "\n")
+    
+# write a function
+
+set.seed(361)
+exponential<- function(n,lambda){
+  u<-runif(n) #u is n random numbers generated
+  x<--log(u)/lambda 
+  hist(x,prob=T,main="Exponential distribution")
+  #add theoritical density line
+  y=seq(0,max(x),0.1)
+  lines(y,lambda*exp(-lambda*y),col="red",lwd=2.5)
+  summary(x)
+}
+lambda<-5
+n<-1000
+exponential(10000,3)
+
+# Write a function to generate random variables from Pareto(9,2) distribution
+# by using inverse transform method, apply it for n=10000 and validate that
+# they come from Pareto Distribution
+
+# Set up parameters
+n <- 10000
+a <- 9
+b <- 2
+# Generate random variables
+u<- runif(n)
+x<- b*(1-u)^(-1/a)
+head(x,20)
+hist(x,prob=T,main="Pareto(9,2)")
+y<- seq(1,40,0.01)
+lines(y,a*b^a/y^(a+1),col="red")
+summary(x)
+
+# The function form
+pareto <- function(n,a,b){
+  u<-runif(n) #u is n random numbers generated from uniform distribution
+  x<- b*(1-u)^(-1/a) #leave x alone
+  #Let's check the distribution of the generated x
+  hist(x,prob=T,main="Pareto(9,2)")
+  #Add theoretical density line
+  y<-seq(1,max(x),0.01)
+  lines(y,a*b^a/y^(a+1),col="red")
+  summary(x)
+}
+n=10000
+a=9
+b=2
+pareto(n,a,b)
+
+# Now compare the sample mean with the expectation of Pareto dist.
+
+expectation<- a*b/(a-1)
+expectation
+
+# Discrete Case
+
+# Let X be a discrete random variables that has probability mass function 
+# given by P(X=0)=0.3,P(X=1)=0.2,P(X=2)=0.5. Generate random variables for X
+# by using discrete inverse transform method for 100 variates from the 
+# desired probability mass function.
+
+n<-100
+# Set up storage space for the generated variables
+x<- numeric(n)
+# These are the probability masses.
+prob<-c(0.3,0.2,0.5)
+# Generate n rv's from the desired distribution
+set.seed(361)
+for(i in 1:n){
+  u<-runif(1) # generate 1 random number from uniform (for each i)
+  if(u<=prob[1]){ #if that number is smaller than or equal to 0.
+    x[i]<-0 # assign 0 i-th observation
+  }else if(u<=sum(prob[1:2])){
+    x[i]<- 1 # assign 1 to i-th observation
+  }else{
+    x[i]<-2 #otherwise assign 2 for the i-th observation
+  }
+  
+}
+table(x)
+
+# Consider a balanced coin tossing example where P(H)=0.6. You are tossing
+# that balanced coin 4 times and let the random variable Y is the number
+# of Heads occured
+
+# Find the pmf of this distribution of Y and from the distribution, generate
+# a random sample of size 1000 by using inverse transform method.
+
+library(kableExtra)
+n <- 1000
+y <- numeric(n) #create an empty vector
+prob <- c(0.0256, 0.1536, 0.3456, 0.3456, 0.1296) #probability masses
+i <- 0 #start i from 0
+set.seed(361)
+while( i <= n ){
+  u <- runif(1) #generate 1 uniform r.v
+  y[i] <- ifelse(u <= prob[1],0, #if u is smaller than or equal to 0.0256, write 0, otherwise 
+                 ifelse(u <= sum(prob[1:2]),1, #if u is smaller than or equal to the sum of 0.0256 and 0.1536 (0.1792), write 1, otherwise
+                        ifelse(u <= sum(prob[1:3]),2,#if u is smaller than sum of 0.0256, 0.1536 and 0.3456 (0.5248), write 2, otherwise
+                               ifelse(u <= sum(prob[1:4]),3,4)))) #if u is smaller than or equal to the sum of 0.0256, 0.1536, 0.3456 and 0.3456 (0.8704), write 3, otherwise write 4.
+  i <- i + 1 #increase i by 1 at the end of each step
+}
+#Estimated Probabilities.
+kable(table(y)/n)
+
+#Compute the mean and variance of the generated sample
+#and compare the results with theoretical expectation and variance.
+
+#domain of y
+d <- seq(0,4)
+
+theoretical.mean = sum(prob*d)
+est.mean = mean(y)
+
+theoretical.var = sum(prob*d^2)-(sum(prob*d))^2
+est.var = var(y)
+
+vec <- round(c(theoretical.mean,est.mean,theoretical.var,est.var),4)
+out <- matrix(vec,nrow=2)
+rownames(out) <- c("Theoretical", "Estimated")
+colnames(out) <- c("Mean","Variance")
+class(kable(out))
+
+
+
+
