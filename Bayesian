@@ -177,4 +177,4 @@ hist(param,breaks=seq(min-0.01,max+0.01,0.01),main="Months since visit",xlab="",
 axis(1, lab=T , lwd=2)
 abline(v=beta5, col=2)
 ```
-#
+##
