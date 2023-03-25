@@ -14,4 +14,4 @@ InsectSprays %>% ggplot(mapping = aes(spray,count)) + geom_boxplot() +
 anova(lm(count~spray, data=InsectSprays))
 # Lower p value indicates that there is a association between the types of 
 # insecticided and counts of insects.
-#######
+########
