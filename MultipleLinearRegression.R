@@ -113,5 +113,5 @@ which(abs(hatvalues(model5)) > 2*p/n )
 #influential points
 
 which(abs(dffits(model5)) > 2*sqrt(p/n))
-#
+##
 
