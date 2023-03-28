@@ -185,7 +185,7 @@ out <- matrix(vec,nrow=2)
 rownames(out) <- c("Theoretical", "Estimated")
 colnames(out) <- c("Mean","Variance")
 class(kable(out))
-
+#
 
 
 
