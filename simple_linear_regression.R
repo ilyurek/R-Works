@@ -76,7 +76,7 @@ mypred.ci
 
 mypred.pi<-predict(survfit,newdata=xvasl,interval="prediction",level=0.95)
 mypred.pi
-#########
+##########
 
 
 
